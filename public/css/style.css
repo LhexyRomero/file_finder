@@ -1,0 +1,13 @@
+@import url('https://cdn.jsdelivr.net/npm/gotham-fonts@1.0.3/css/gotham-rounded.css');
+
+body {
+    font-family: "Gotham Rounded Book" !important;
+}
+
+.btn-sm {
+    padding: .10rem .5rem !important;
+}
+
+.multiple {
+    margin-bottom: 8px;
+}
