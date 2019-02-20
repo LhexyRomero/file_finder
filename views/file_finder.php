@@ -25,33 +25,31 @@ else {
             <div class="row">
                 <div class="col-md-6">
                     <h4 style="margin-top:30px;">Filter By</h4><br>
-                    <form>
-                        <div class="form-group">
-                            <label>Client Name</label><!-- 
-                            <input id="client_name" type="text" class="form-control"> -->
-                            <button onclick="addClient()" type="button" class="btn btn-primary btn-sm float-right">Add Client</button>
-                            <div class="add_client"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>User Name</label><!-- 
-                            <input id="user_name" type="text" class="form-control"> -->
-                            <button onclick="addUser()" type="button" class="btn btn-primary btn-sm float-right">Add Client</button>
-                            <div class="add_user"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>Start Date</label>
-                            <input id="start_date" type="date" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>End Date</label>
-                            <input id="end_date" type="date" class="form-control">
-                        </div>
-                        <br/>
-                        <center>
-                            <button type="button" onclick="search(event)" class="btn btn-success">Search</button>
-                            <button type="button" class="btn btn-secondary">Clear</button>
-                        </center>
-                    </form>
+                    <div class="form-group">
+                        <label>Client Name</label><!-- 
+                        <input id="client_name" type="text" class="form-control"> -->
+                        <button onclick="addClient()" type="button" class="btn btn-primary btn-sm float-right">Add Client</button>
+                        <form id="client"><div class="add_client"></div></form>
+                    </div>
+                    <div class="form-group">
+                        <label>User Name</label><!-- 
+                        <input id="user_name" type="text" class="form-control"> -->
+                        <button onclick="addUser()" type="button" class="btn btn-primary btn-sm float-right">Add User</button>
+                        <form id="user" method="POST"><div class="add_user"></div></form>
+                    </div>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input id="start_date" type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input id="end_date" type="date" class="form-control">
+                    </div>
+                    <br/>
+                    <center>
+                        <button type="button" onclick="search(event)" class="btn btn-success">Search</button>
+                        <button type="button" class="btn btn-secondary">Clear</button>
+                    </center>
                 </div>
                 <div class="col-md-6">
                     <div class="hide">
@@ -80,17 +78,20 @@ else {
             addUser();
         });
 
+        
+        var clients = [];
+        var users = [];
         function search(e){
             e.preventDefault();
-            var user_name = $("#user_name").val();
-            var client_name = $("#client_name").val();
             var start_date = $("#start_date").val();
             var end_date = $("#end_date").val();
+
+            console.log(users);
 
             $.ajax({
                 method: "POST",
                 url: "../model/search_file.php",
-                data: "user_name="+ user_name + "&client_name="+client_name +"&start_date="+start_date + "&end_date="+end_date,
+                data: "start_date="+start_date + "&end_date="+end_date + "&users="+users + "&clients="+clients,
                 success: (data)=>{
                     var response = JSON.parse(data);
                     $(".hide").show();
@@ -114,6 +115,7 @@ else {
         }
 
         var client_ctr = 0;
+        var user_ctr = 0;
         var client_target = $(".add_client");
         var user_target = $(".add_user");
 
@@ -125,40 +127,45 @@ else {
                 success: (data)=>{
                     console.log(data);
 
-                    var html = "<div class='multiple'><select class='form-control chosen-select'>"+data+"</select></div>";
+                    var html = "<div class='multiple'><select id='user"+client_ctr+"' class='for-client form-control chosen-select'>"+data+"</select></div>";
                     client_target.append(html);
                     $(".chosen-select").chosen({width:"100%"}); 
+                    
+                    $('.for-client').on('change', (event)=>{
+                        let value = $(event.target).val();
+                        var text = $("#user"+client_ctr+" "+"option[value="+value+"]").text();
+                        clients.push(text);
+                    });
                 }
             });
-
-            if(client_ctr >= 9){
-                alert("SOBRA NA");
-                return;
-            }
-
-
         }
 
         function addUser(){
             $.ajax({
                 method: "post",
                 url: "../model/options.php",
-                data: "type=client",
+                data: "type=user",
                 success: (data)=>{
                     console.log(data);
 
-                    var html = "<div class='multiple'><select class='form-control chosen-select'>"+data+"</select></div>";
+                    var html = "<div class='multiple'><select id='user"+user_ctr+"' class='for-user form-control chosen-select'>"+data+"</select></div>";
+                    
                     user_target.append(html);
                     $(".chosen-select").chosen({width:"100%"}); 
+
+                    $('.for-user').on('change', (event)=>{
+                        var value = $(event.target).val();
+                        var text = $("#user"+user_ctr+" "+"option[value="+value+"]").text();
+                        users.push(text);
+                    });
+                    
                 }
             });
-
-            if(client_ctr >= 9){
+            client_ctr++;
+            /* if(client_ctr >= 9){
                 alert("SOBRA NA");
                 return;
-            }
-
-
+            } */
         }
 
 

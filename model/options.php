@@ -11,7 +11,7 @@ if($type == 'client'){
 
 $query = $connect->query($sql);
 
-$options = "";
+$options = "<option hidden> --- Select ".$type." --- </option>";
     while($row = mysqli_fetch_array($query)){
         $options .= "<option value=".$row['id'].">".$row['name']."</option>";
     }
