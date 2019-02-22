@@ -22,18 +22,22 @@ else {
 
     <body>
         <div class="container">
+        <nav><br>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a href="./search_folder.php" class="nav-item nav-link" id="nav-folder-tab">Search From Folder</a>
+                <a href="./search_database.php" class="nav-item nav-link active" id="nav-database-tab">Search From Database</a>
+           </div>
+        </nav>
             <div class="row">
                 <div class="col-md-6">
                     <h4 style="margin-top:30px;">Filter By</h4><br>
                     <div class="form-group">
-                        <label>Client Name</label><!-- 
-                        <input id="client_name" type="text" class="form-control"> -->
+                        <label>Client Name</label>
                         <button onclick="addClient()" type="button" class="btn btn-primary btn-sm float-right">Add Client</button>
                         <form id="client"><div class="add_client"></div></form>
                     </div>
                     <div class="form-group">
-                        <label>User Name</label><!-- 
-                        <input id="user_name" type="text" class="form-control"> -->
+                        <label>User Name</label>
                         <button onclick="addUser()" type="button" class="btn btn-primary btn-sm float-right">Add User</button>
                         <form id="user" method="POST"><div class="add_user"></div></form>
                     </div>
@@ -78,7 +82,6 @@ else {
             addUser();
         });
 
-        
         var clients = [];
         var users = [];
         function search(e){
@@ -90,8 +93,8 @@ else {
 
             $.ajax({
                 method: "POST",
-                url: "../model/search_file.php",
-                data: "start_date="+start_date + "&end_date="+end_date + "&users="+users + "&clients="+clients,
+                url: "../model/search_database.php",
+                data:  "start_date="+start_date + "&end_date="+end_date + "&users="+users + "&clients="+clients,
                 success: (data)=>{
                     var response = JSON.parse(data);
                     $(".hide").show();

@@ -2,7 +2,6 @@
 <?php
     require "../controller/connection.php";
     $dir    = '../public/files';
-
     $key = array('Filename','File');
     $values = array();
     $response = array();
@@ -13,7 +12,7 @@
     $q_u = "";
 
 
-   if(!empty($_POST)){
+    if(!empty($_POST)){
         $startdate = $_POST['start_date'];
         $enddate = $_POST['end_date'];
 
@@ -37,10 +36,7 @@
             while($row = mysqli_fetch_array($query)) {
                 $files = scandir($dir);
                 if(in_array($row['file_name'],$files)){
-/* 
-                    $date_uploaded = date("F d Y H:i:s.", strtotime($row['date_uploaded']));
-                    $file_date =  date("F d Y H:i:s.", filemtime("../public/files/".$row['file_name']));
- */
+
                     $sql_update = "UPDATE files_t SET file_exists = 'yes' WHERE id = ".$row['id']."";
                     $query_update = $connect->query($sql_update);
                     

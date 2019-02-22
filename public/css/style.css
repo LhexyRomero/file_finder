@@ -11,3 +11,8 @@ body {
 .multiple {
     margin-bottom: 8px;
 }
+
+.example {
+    color: rgb(155, 155, 155) !important;
+    font-size: 14px !important;
+}

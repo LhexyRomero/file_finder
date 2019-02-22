@@ -29,13 +29,10 @@
 
     if(!empty($_POST)){
 
-
-        echo "im here";
         $username = $_POST['username'];
         $password = $_POST['password'];
 
         $sql = "SELECT * FROM user_t WHERE name = '$username' AND pass = '$password'";
-        echo $sql;
         $query = $connect->query($sql);
 
         if(mysqli_num_rows($query) > 0) {
@@ -43,9 +40,7 @@
                 session_start();
 
                 $_SESSION["client_id"] = $row["id"];
-                header('Location:views/file_finder.php');
-                
-                echo  $_SESSION["client_id"];
+                header('Location:views/search_database.php');
             }
         }
         else {
