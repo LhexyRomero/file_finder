@@ -89,8 +89,6 @@ else {
             var start_date = $("#start_date").val();
             var end_date = $("#end_date").val();
 
-            console.log(users);
-
             $.ajax({
                 method: "POST",
                 url: "../model/search_database.php",
@@ -128,7 +126,6 @@ else {
                 url: "../model/options.php",
                 data: "type=client",
                 success: (data)=>{
-                    console.log(data);
 
                     var html = "<div class='multiple'><select id='user"+client_ctr+"' class='for-client form-control chosen-select'>"+data+"</select></div>";
                     client_target.append(html);
@@ -149,7 +146,6 @@ else {
                 url: "../model/options.php",
                 data: "type=user",
                 success: (data)=>{
-                    console.log(data);
 
                     var html = "<div class='multiple'><select id='user"+user_ctr+"' class='for-user form-control chosen-select'>"+data+"</select></div>";
                     
